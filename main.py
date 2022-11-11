@@ -7,12 +7,12 @@ from zipfile import ZipFile
 #removes files from dir
 def clear_dir(path):
     for file_name in os.listdir(path):
-        os.remove(f'{path}/{file_name}') #constructs path and remove the file
+        os.remove(f'{path}/{file_name}') #constructs path and removes the file
 
 #makes dir or cleans it
 def clean_cache():
     dir = 'files/cache'
-    if os.path.isdir(dir):  #check if dir exist
+    if os.path.isdir(dir): #check if dir exist
         clear_dir(dir)
     else:
         os.mkdir(dir)
@@ -30,7 +30,7 @@ def data_to_cache():
 
 #makes list of cached files
 def cached_files():
-    cache_path = os.path.abspath("files\cache")
+    cache_path = os.path.abspath('files\cache')
     cache_list = []
     for file_name in os.listdir(cache_path):
         cache_list.append(f'{cache_path}\{file_name}')

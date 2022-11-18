@@ -17,7 +17,7 @@ def clear_dir(path):
 
 #makes dir or cleans it
 def clean_cache():
-    dir = get_current_dir('files/cache')
+    dir = get_current_dir('files\\cache')
     if os.path.isdir(dir): #check if dir exist
         clear_dir(dir)
     else:
@@ -30,8 +30,8 @@ def cache_zip(zip_file, cache_path):
 
 #put data to cache
 def data_to_cache():
-    zip_file = get_current_dir('files/data.zip')
-    cache_path = get_current_dir('files/cache')
+    zip_file = get_current_dir('files\\data.zip')
+    cache_path = get_current_dir('files\\cache')
     cache_zip(zip_file, cache_path)
 
 #makes list of cached files
@@ -53,7 +53,6 @@ def find_password(file_list):
             password = password_raw[0:password_raw.find('\n')]  #remove lines after password
             return password
         file_content.close
-
-
+clean_cache()
 
 

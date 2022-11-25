@@ -6,7 +6,8 @@ __human_name__ = 'classes'
 class Player():
     def __init__(self, name, speed, endurance, accuracy):
         try:
-            speed 
+            speed in range(0, 1)
+        
         self.name = name
         self.speed = speed
         self.endurance = endurance

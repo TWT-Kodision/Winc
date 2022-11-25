@@ -53,3 +53,4 @@ def find_password(file_list = cached_files()):
             password = password_raw[0:password_raw.find('\n')]  #remove lines after password
             return password
         file_content.close
+

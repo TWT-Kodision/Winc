@@ -14,3 +14,9 @@ alice = Person('Alice', 20)
 # Access class and instance attributes
 print(alice.home_planet)
 print(alice.age)
+
+def test_example_0():
+    assert 1 == 1
+
+def test_example_1():
+    assert 1 == 2

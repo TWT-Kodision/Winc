@@ -15,6 +15,7 @@ def won_golden_globe(film):
     return has_won
 
 def remove_toto_albums(list):
+    print(list)
     toto_albums = ['Fahrenheit','The Seventh One','Toto XX', 'Falling in Between', 'Toto XIV','Old Is New']
     if (toto_albums[0] in list ):
         list.remove(toto_albums[0])

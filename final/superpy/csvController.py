@@ -24,7 +24,6 @@ def makeFile(file):
             filename = "sold.csv"
 
         action = "w"
-        newline = ''
         processFile(filename, action, line)
     except NameError:
         print("filename not recognized")
@@ -41,9 +40,6 @@ def getDataList(filename):
 
 def getRowIndex(data_list, SearchRow):
     for row in data_list:
-        print('this is the row')
-        print(row)
-        print("end row")
         if SearchRow == row:
             return data_list.index(row)
         
@@ -88,7 +84,6 @@ def getBoughtListByBoughtId(bought_id):
     return found
 
     
-#def readBoughtProduct(product)
 makeFile("bought")
 makeFile("sold")
 addToBought("12", "test", "name", date(2022, 12, 14), date(2023, 12, 15), 100)
@@ -98,10 +93,11 @@ addToSold("1265", "12", date(2022, 12, 14), 14.50, 20)
 addToSold("2223", "22",  date(2023, 1, 22), 16.50, 10)
 dataList = getDataList("bought.csv")
 searchList = ["12", "test", "name", "2022-12-14", "2023-12-15", "100"]
-print(dataList[1])
-print(searchList)
-print(dataList[1] == searchList)
-print(getRowIndex(dataList, searchList))
+
+#print(dataList[1])
+#print(searchList)
+#print(dataList[1] == searchList)
+#print(getRowIndex(dataList, searchList))
 
 
 

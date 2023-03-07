@@ -1,9 +1,26 @@
 from csvController import*
-from datetime import datetime 
+from datetime import datetime, timedelta
 
 import matplotlib.pyplot as plt
 import numpy as np
 
+#===============================
+#Utils
+
+def convertToDateObject(date):
+    date_object = datetime.strptime(date, '%Y-%m-%d').date()
+    return date_object
+
+def makeDateArray(begin_date, end_date):
+    begin_date_object = convertToDateObject(begin_date)
+    end_date_object = convertToDateObject(end_date)
+    date_array = []
+    while begin_date_object <= end_date_object:
+        date_array.append(str(begin_date_object))
+        begin_date_object += timedelta(days=1)
+    return date_array
+
+#===============================
 def makeNewCSVFile(filename, column_name=None):
     try:
         if filename == "bought.csv":
@@ -17,10 +34,6 @@ def makeNewCSVFile(filename, column_name=None):
 
 def checkProductInput(inputList):
     return None
-
-def convertToDateObject(date):
-    date_object = datetime.strptime(date, '%Y-%m-%d').date()
-    return date_object
 
 def registerBoughtProduct(id, product, product_name, buy_date, expiration_date):
     addToBought(id, product, product_name, buy_date, expiration_date)
@@ -81,7 +94,6 @@ def getProductsDateRange(begin_date, end_date, bought_or_sold):
             list_range.append(product)
     return list_range
 
-
 def calculateProfit(begin_date, end_date):
     #make sold list for specified range
     sold_list_range = getProductsDateRange(begin_date, end_date, "sold")
@@ -106,7 +118,8 @@ def countEachProductInventory():
         counts[product[1]] = counter
     return(counts)
 
-           
+
+#def plotGraphSoldProducts(begin_date, end_date):
 
 
 #product list
@@ -120,8 +133,7 @@ def countEachProductInventory():
 #export selection data to csv file 
 
 
-"""     
-    Which products the supermarket offers;
+""" Which products the supermarket offers;
     How many of each type of product the supermarket holds currently;
     How much each product was bought for, and what its expiry date is;
     How much each product was sold for or if it expired, the fact that it did;
@@ -134,4 +146,5 @@ def countEachProductInventory():
         The use of an external module Rich(opens in a new tab) to improve the application.
         The ability to import/export reports from/to formats other than CSV (in addition to CSV)
         The ability to visualize some statistics using Matplotlib(opens in a new tab)
-        Another feature that you thought of.  """
+        Another feature that you thought of.  
+        """

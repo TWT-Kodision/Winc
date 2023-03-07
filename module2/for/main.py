@@ -88,11 +88,11 @@ def find_word_most_similar_letters(letterlist, wordlist):
 def alphabet_set (wordlist):
     alphabet_list = []
     alphabet = make_alphabet()
-    for x in range(len(wordlist)):
-        selected_word = find_word_most_similar_letters(alphabet, wordlist)
-        add_word_to_list(alphabet_list, selected_word)
-        for letter in selected_word.lower():
-            alphabet = remove_letter_from_list(alphabet, letter)
+    #for x in range(len(wordlist)):
+    selected_word = find_word_most_similar_letters(alphabet, wordlist)
+    add_word_to_list(alphabet_list, selected_word)
+    for letter in selected_word.lower():
+        alphabet = remove_letter_from_list(alphabet, letter)
         if len(alphabet) == 0:
             break
     return alphabet_list
@@ -105,7 +105,7 @@ if __name__ == "__main__":
     #print(shortest_names(countries))
     #make_top_three_most_vowels(countries)
     alphabet_set(countries)
-    most_vowels(countries)
+    print(most_vowels(countries))
     
 
     """ Write the calls to your functions here. """

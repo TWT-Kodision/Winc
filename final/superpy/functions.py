@@ -1,6 +1,9 @@
 from csvController import*
 from datetime import datetime 
 
+import matplotlib.pyplot as plt
+import numpy as np
+
 def makeNewCSVFile(filename, column_name=None):
     try:
         if filename == "bought.csv":
@@ -103,9 +106,7 @@ def countEachProductInventory():
         counts[product[1]] = counter
     return(counts)
 
-def plotGraphSoldPerDay(begin_date, end_date):
-    
-            
+           
 
 
 #product list

@@ -2,82 +2,89 @@ import csv
 import os
 from datetime import date
 
-def getDir(filename):
+def get_dir(filename):
     dirPath = os.path.join(os.path.dirname(os.path.realpath(__file__)),filename)
     return dirPath
 
-def processFile(filename, action, line, newline = ""):
-    dir_path = getDir(filename)
+def process_file(filename, action, line, newline = ""):
+    dir_path = get_dir(filename)
     with open(dir_path, action, newline = newline) as file:
         writer = csv.writer(file, delimiter="|", quotechar="|")
         writer.writerow(line)
 
-def makeFile(file, column_name):
+def make_file(file, column_name):
     try:
         filename = file
         first_row = column_name
         action = "w"
-        processFile(filename, action, first_row)
+        process_file(filename, action, first_row)
     except NameError:
         print("filename not recognized")
 
-def makeBoughtFile():
-    makeFile("bought.csv", ["id","product_name","buy_date","buy_price","expiration_date"])
+def make_bough_file():
+    make_file("bought.csv", ["id","product_name","buy_date","buy_price","expiration_date"])
 
-def makeSoldFile():
-    makeFile("sold.csv", ["id","bought_id","sell_date","sell_price"])
+def make_sold_file():
+    make_file("sold.csv", ["id","bought_id","sell_date","sell_price"])
 
-def getDataList(filename):
+#makes complete file with list, first item on the list becomes header
+def make_custom_file(filename, item_list):
+    make_file(filename, item_list[0])
+    del item_list[0]
+    for item in item_list:
+        process_file(filename,'a', item)
+
+def get_data_list(filename):
     dataList = []
-    dir_path = getDir(filename)
+    dir_path = get_dir(filename)
     with open(dir_path) as file:
         reader = csv.reader(file, delimiter='|')
         for row in reader:
             dataList.append(row)
         return dataList
 
-def getRowIndex(data_list, SearchRow):
+def get_gow_index(data_list, SearchRow):
     for row in data_list:
         if SearchRow == row:
             return data_list.index(row)
         
     
-def addToBought(id, product_name, buy_date, buy_price,expiration_date):
+def add_to_bought(id, product_name, buy_date, buy_price,expiration_date):
     filename = "bought.csv"
     action = "a"
     add_product = id, product_name, buy_date, buy_price, expiration_date
-    processFile(filename, action, add_product)
+    process_file(filename, action, add_product)
 
-def addToSold(id, bought_id, sell_date, sell_price):
+def add_to_sold(id, bought_id, sell_date, sell_price):
     filename = "sold.csv"
     action = "a"
     sold_product = id, bought_id, sell_date, sell_price
-    processFile(filename, action, sold_product)
+    process_file(filename, action, sold_product)
 
-def searchInList(index, searchword, list):
+def search_in_list(index, searchword, list):
     found=[]
     for row in list:
         if row[index]==searchword:
             found.append(row)
     return found
 
-def getProductById(fileName, bought_id, index = 0):
-    data = getDataList(fileName)
-    found = searchInList(index, bought_id, data)
+def get_product_by_id(fileName, bought_id, index = 0):
+    data = get_data_list(fileName)
+    found = search_in_list(index, bought_id, data)
     return found
 
-def getSoldListBySoldId(sold_id):   
+def ge_sold_list_by_sold_id(sold_id):   
     file_name = "sold.csv"
-    found = getProductById(file_name, sold_id)
+    found = get_product_by_id(file_name, sold_id)
     return found
 
-def getSoldListByBoughtId(bought_id):
+def get_sold_list_by_bought_id(bought_id):
     file_name = "sold.csv"
     index = 1
-    found = getProductById(file_name, bought_id, index)
+    found = get_product_by_id(file_name, bought_id, index)
     return found
 
-def getBoughtListByBoughtId(bought_id):
+def get_bought_list_by_bought_id(bought_id):
     file_name = "bought.csv"
-    found = getProductById(file_name, bought_id)
+    found = get_product_by_id(file_name, bought_id)
     return found

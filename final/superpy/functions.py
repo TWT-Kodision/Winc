@@ -5,20 +5,20 @@ import numpy as np
 
 #===============================
 #Utils
-
+#convert date string to date object
 def convert_to_date_object(date):
     date_object = datetime.strptime(date, '%Y-%m-%d').date()
     return date_object
 
+#using begin and end date, it makes an array with al days in between. 
 def make_date_array(start_date, end_date):
-    begin_date_object = convert_to_date_object(start_date)
-    end_date_object = convert_to_date_object(end_date)
     date_array = []
-    while begin_date_object <= end_date_object:
-        date_array.append(str(begin_date_object))
-        begin_date_object += timedelta(days=1)
+    while start_date <= end_date:
+        date_array.append(str(start_date))
+        start_date += timedelta(days=1)
     return date_array
 
+#plots graph
 def create_graph(axis):
     x=[]
     y=[]
@@ -34,33 +34,34 @@ def create_graph(axis):
     plt.plot(x_axis, y_axis)
     plt.show()
 
-def validate_date(date):
-    format = "%d-%m-%Y"
-    res = True
-    try:
-        res = bool(datetime.strptime(date, format))
-    except ValueError:
-        res = False
-    return res 
+#print list with the items among eacht other
+def print_list(list):
+    for item in list: 
+        print(item)
 
 #===============================
+
+#makes new csv file 
 def make_new_csv_file(filename, column_name=None):
     try:
         if filename == "bought.csv":
-            make_bough_file()
+            make_bought_file()
         elif filename == "sold.csv":
             make_sold_file()
         else:
-            make_file(filename, column_name)
+            make_file(filename + ".csv", column_name)
     except ValueError:
         print("filename or column name not correct")
 
+#ads bought product
 def register_bought_product(id, product, product_name, buy_date, expiration_date):
     add_to_bought(id, product, product_name, buy_date, expiration_date)
 
+#adrs sold product
 def register_sold_product(id, bought_id, sell_date, sell_price):
     add_to_sold(id, bought_id, sell_date, sell_price)
 
+#makes inventory list per product
 def get_inventory_list():
     sold_list = get_data_list("sold.csv")
     inventory_list = get_data_list("bought.csv")
@@ -71,14 +72,17 @@ def get_inventory_list():
                 inventory_list.remove(bought_item)
     return inventory_list
 
-def get_product_details(search_product):
+#gets product details from product in inventory list
+def get_product_details(product_name):
     inventory_list = get_inventory_list()
     product_details = []
     for product in inventory_list:
-        if product[1] == search_product:
+        if product[1] == product_name:
             product_details.append(product)
     return product_details
 
+
+#gets list of expired prooducts (in stock)
 def get_expired_product_list(day = date.today()):
     inventory_list = get_inventory_list()
     del inventory_list[0] #remove header
@@ -89,43 +93,46 @@ def get_expired_product_list(day = date.today()):
             expired_products.append(product)
     return expired_products
 
+#get sold list
 def get_sold_product_list():
     sold_products = get_data_list("sold.csv")
     return sold_products
 
+#get bought list
 def find_product_by_id(id):
     bought_list = get_data_list("bought.csv")
     for product in bought_list:
         if product[0]==id:
             return product
         
+#find product in a given date range        
 def get_products_date_range(begin_date, end_date, bought_or_sold):
-    begin_date_object = convert_to_date_object(begin_date)
-    end_date_object = convert_to_date_object(end_date)
+    begin_date 
+    end_date 
     list_range = []
     if bought_or_sold == "bought":
-        product_list = get_data_list("bough.csv")
+        product_list = get_data_list("bought.csv")
     if bought_or_sold == "sold":
         product_list = get_data_list("sold.csv")
     del product_list[0] #remove header
     for product in product_list:
         product_date_object = convert_to_date_object(product[2])
-        if product_date_object >= begin_date_object and product_date_object <= end_date_object:
+        if product_date_object >= begin_date and product_date_object <= end_date:
             list_range.append(product)
     return list_range
 
+#calculate profit in a given date range the products are sold
 def calculate_profit(begin_date, end_date):
     #make sold list for specified range
     sold_list_range = get_products_date_range(begin_date, end_date, "sold")
     profit = 0
     for product in sold_list_range:
-        print(product)
         product_bought_details = find_product_by_id(product[1])
-        print(product_bought_details)
         product_profit =  float(product[3])-float(product_bought_details[3])
         profit += product_profit
     return profit  
 
+#gives a dictionary with each product and the count of it that is currently on stock
 def count_each_product_inventory():
     inventory_list = get_inventory_list()
     counts = dict()
@@ -138,6 +145,7 @@ def count_each_product_inventory():
         counts[product[1]] = counter
     return(counts)
 
+#coutn products on a given date
 def count_sold_products_per_day(date):
     sold_products = get_sold_product_list()
     count = 0
@@ -146,6 +154,7 @@ def count_sold_products_per_day(date):
             count += 1
     return count
 
+#create dictionary with the product count on each dat given the date range. This is used to plot the graph
 def make_dict_day_count(start_date, end_date):
     dates = make_date_array(start_date, end_date)
     sold_on_dates = {}
@@ -153,39 +162,13 @@ def make_dict_day_count(start_date, end_date):
         sold_on_dates[date] = count_sold_products_per_day(str(date))
     return sold_on_dates
 
+#create graph of number of sold products per day
 def make_date_sold_graph(start_date, end_date):
     dates_sold = make_dict_day_count(start_date, end_date)
     create_graph(dates_sold)
 
-
-
-
-#def plotGraphSoldProducts(begin_date, end_date):
-
-
-#product list
-#product list with number/count
-#product bought price and expiry date
-#product sold price
-#expired products
-#set date to today or future date
-#list of bought and sold products at certain date
-#profit time for specific time period
-#export selection data to csv file 
-
-
-""" Which products the supermarket offers;
-    How many of each type of product the supermarket holds currently;
-    How much each product was bought for, and what its expiry date is;
-    How much each product was sold for or if it expired, the fact that it did;
+#puts list in a csv file.
+def make_custom_file(filename, list, content = "custom file"):
+    make_new_csv_file(filename, [content])
+    add_to_file(filename +".csv", list)
     
-    Setting and advancing the date that the application perceives as 'today';
-    Recording the buying and selling of products on certain dates;
-    Reporting revenue and profit over specified time periods;
-    Exporting selections of data to CSV files;
-    Two other additional non-trivial features of your choice, for example:
-        The use of an external module Rich(opens in a new tab) to improve the application.
-        The ability to import/export reports from/to formats other than CSV (in addition to CSV)
-        The ability to visualize some statistics using Matplotlib(opens in a new tab)
-        Another feature that you thought of.  
-        """

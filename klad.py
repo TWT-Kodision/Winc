@@ -1,3 +1,5 @@
+import os
+
 ''''
 class Person():
     # Class attributes
@@ -22,7 +24,7 @@ def test_example_0():
 def test_example_1():
     assert 1 == 2
 
-'''
+
 def initials(name):
     first, last = name.split(' ')
     print(first)
@@ -39,3 +41,5 @@ def test_intials_double_barrelled():
 
 test_initials_common_name()
 test_intials_double_barrelled()
+'''
+print (os.path.dirname(os.path.realpath(__file__)))

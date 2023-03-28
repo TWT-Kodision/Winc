@@ -3,7 +3,7 @@ from functions import*
 
 
 
-make_bough_file()
+make_bought_file()
 make_sold_file()
 add_to_bought(12, "name", date(2022, 12, 14), 15, date(2023, 12, 15))
 add_to_bought(22, "name2", date(2023, 1, 22), 16, date(2023, 1, 2))

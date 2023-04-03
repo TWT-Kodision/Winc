@@ -1,8 +1,6 @@
 from csvController import*
 from functions import*
 
-
-
 make_bought_file()
 make_sold_file()
 add_to_bought(12, "name", date(2022, 12, 14), 15, date(2023, 12, 15))
@@ -20,32 +18,32 @@ add_to_sold(1266, 23, date(2023, 2, 14), 24.50)
 add_to_sold(2223, 22, date(2023, 3, 22), 26.50)
 add_to_sold(2323, 24, date(2023, 2, 22), 27.50)
 add_to_sold(2423, 27, date(2023, 3, 22), 23.50)
-#dataList = getDataList("bought.csv")
-#searchList = ["12", "test", "name", "2022-12-14", "2023-12-15"]
 
-#print(dataList[1])
-#print(searchList)
-#print(getDataList("bought.csv"))
-#print(getDataList("sold.csv"))
-#print(dataList[1] == searchList)
-#print(getRowIndex(dataList, searchList))
+def test_inventory_list():
+    expected_list = [['id', 'product_name', 'buy_date', 'buy_price', 'expiration_date'], ['23', 'name3', '2023-01-23', '17', '2023-01-03'], ['24', 'name4', '2023-01-24', '18', '2023-02-04'], ['25', 'name2', '2023-01-25', '19', '2023-06-05'], ['26', 'name6', '2023-01-26', '11', '2023-02-06'], ['28', 'name8', '2023-01-28', '13', '2023-06-08'], ['29', 'name6', '2023-01-29', '14', '2023-06-09']]
+    assert (get_inventory_list() == expected_list), "not the right inventory list"
+    
+def test_product_detail():
+    expected_output= [['26', 'name6', '2023-01-26', '11', '2023-02-06'], ['29', 'name6', '2023-01-29', '14', '2023-06-09']]
+    product = "name6"
+    assert (get_product_details(product) == expected_output), "output productdetails not as expected"
 
+def test_get_products_date_range():
+    begin_date = date(2023,1,1)
+    end_date = date(2023,1,26)
+    list = "bought"
+    expected_list = [['22', 'name2', '2023-01-22', '16', '2023-01-02'], ['23', 'name3', '2023-01-23', '17', '2023-01-03'], ['24', 'name4', '2023-01-24', '18', '2023-02-04'], ['25', 'name2', '2023-01-25', '19', '2023-06-05'], ['26', 'name6', '2023-01-26', '11', '2023-02-06']]
+    assert (get_products_date_range(begin_date, end_date, list) == expected_list), "output product range not valid"
 
+def test_calculate_profit():
+    start_date = date(2023,2,1)
+    end_date = date(2023,2,26)
+    expected_output = 26.5
+    output = calculate_profit(start_date, end_date)
+    assert (output == expected_output), "profit is not as expected."
 
-
-#print(getBoughtListByBoughtId("12"))
-#print(getSoldListByBoughtId("12"))
-#print(int(getBoughtListByBoughtId("12")[0][5]) - int(getSoldListByBoughtId("12")[0][4]))
-
-
-
-#print('list is')
-print(get_inventory_list())
-#print(getProductDetails("name2"))
-#print(get_expired_product_list())
-#print(calculate_profit("2023-02-01", "2023-2-28"))
-#print(count_each_product_inventory())
-#print(make_date_array("2023-02-01", "2023-2-28"))
-#print(count_sold_products_per_day('2023-03-22'))
-#make_date_sold_graph("2023-02-01", "2023-2-28")
-make_custom_file("custom.csv", get_inventory_list())
+test_inventory_list()
+test_product_detail()
+test_calculate_profit()
+test_get_products_date_range()
+print('tests complete')

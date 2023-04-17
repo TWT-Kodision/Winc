@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- Your solution here. -->
+{%if session['logged']%}
+    welcome {{ session['username'] }}!
+{%else%}
+    you are not logged in
+{%endif%}
 {% endblock content %}
 

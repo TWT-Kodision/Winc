@@ -6,7 +6,7 @@ import difflib
 from peewee import *
 
 def search(term):
-    products = models.Products.select()
+    products = models.Products.select() #indexing
     result = []
     possibilities = []
     
@@ -20,11 +20,10 @@ def search(term):
     #find possible word
     close_matches = difflib.get_close_matches(term.casefold(), possibilities, 2) 
     for close_match in close_matches:
-        print(close_match)
         for product in products:
-            if product.name.casefold() == close_match:
+            if product.name.casefold() == close_match and product not in result: #check if its a new match in product name
                 result.append(product)
-            if close_match in product.description.casefold():
+            if close_match in product.description.casefold() and product not in result: #check if its a new match in description
                 result.append(product)
     return(result)
 
@@ -68,7 +67,7 @@ def purchase_product(product_id, buyer_id, quantity, date = date.today()):
 
 def remove_product(product_id):
     product = models.Products.get(models.Products.id == product_id)
-    price = models.Price.get(models.Prices.product_id == product_id)
+    price = models.Prices.get(models.Prices.product_id == product_id)
     product.delete_instance()
     price.delete_instance()
 
@@ -96,6 +95,9 @@ def populate_test_database(add_users = True, add_products = True, add_transactio
     if(update_stocks):
         update_stock(5,6)
 
-populate_test_database()
+populate_test_database(False, False, False, False)
 print(search('whie'))
 print(search('size'))
+update_stock(1, 6)
+purchase_product(1,2,2)
+remove_product(5)

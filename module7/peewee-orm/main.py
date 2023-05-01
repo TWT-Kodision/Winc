@@ -112,10 +112,11 @@ def add_dish_to_menu() -> models.Dish:
     new ingredients however.
     Return your newly created dish
     """
+    new_dish = models.Dish.create(name = 'mac and cheese', served_at = 3,  price_in_cents = 1500)
     cheese = models.Ingredient.get_or_create(name = 'cheese', is_vegetarian = True, is_vegan = False, is_glutenfree = True)
     macaroni = models.Ingredient.get_or_create(name = 'macaroni', is_vegetarian = True, is_vegan = True, is_glutenfree = False)
     milk = models.Ingredient.get_or_create(name = 'milk', is_vegetarian = True, is_vegan = False, is_glutenfree = True)
-    new_dish = models.Dish.create(name = 'mac and cheese', served_at = 3,  price_in_cents = 1500)
+    
     new_dish.ingredients.add(models.Ingredient.select().where(models.Ingredient.name == 'cheese'))
     new_dish.ingredients.add(models.Ingredient.select().where(models.Ingredient.name == 'macaroni'))
     new_dish.ingredients.add(models.Ingredient.select().where(models.Ingredient.name == 'milk'))

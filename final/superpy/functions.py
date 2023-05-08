@@ -39,6 +39,9 @@ class Functions:
     def print_list(self, list):
         for item in list: 
             print(item)
+    
+  
+
 
     #===============================
 
@@ -55,12 +58,14 @@ class Functions:
             print("filename or column name not correct")
 
     #ads bought product
-    def register_bought_product(self, id, product, product_name, buy_date, expiration_date):
-        add_to_bought(id, product, product_name, buy_date, expiration_date)
+    def register_bought_product(self, product_name, buy_price, expiration_date):
+        buy_date = date.today()
+        add_to_bought(product_name, buy_date, buy_price, expiration_date)
 
     #adrs sold product
-    def register_sold_product(self, id, bought_id, sell_date, sell_price):
-        add_to_sold(id, bought_id, sell_date, sell_price)
+    def register_sold_product(self, bought_id, sell_price):
+        sell_date = date.today()
+        add_to_sold(bought_id, sell_price, sell_date)
 
     #makes inventory list per product
     def get_inventory_list(self):
@@ -110,9 +115,9 @@ class Functions:
         begin_date 
         end_date 
         list_range = []
-        if bought_or_sold == "bought":
+        if bought_or_sold == "b" or bought_or_sold == "bought" :
             product_list = get_data_list("bought.csv")
-        if bought_or_sold == "sold":
+        if bought_or_sold == "s" or bought_or_sold == "sold":
             product_list = get_data_list("sold.csv")
         del product_list[0] #remove header
         for product in product_list:
@@ -171,4 +176,9 @@ class Functions:
     def make_custom_file(self, filename, list, content = "custom file"):
         self.make_new_csv_file(filename, [content])
         add_to_file(filename +".csv", list)
+    
+
+
+
+
         

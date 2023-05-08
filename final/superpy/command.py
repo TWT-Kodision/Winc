@@ -1,5 +1,6 @@
 import argparse
 from functions import Functions
+from datetime import datetime
 
 class Command:
     parser = argparse.ArgumentParser(description='Inventory administration')
@@ -31,18 +32,14 @@ class Command:
     sold_graph.add_argument('-end_date', help = 'give the ending date of the range YYYY-MM-DD', type = lambda t: datetime.strptime(t, '%Y-%m-%d').date())
     #option add to bought list
     add_bought_list = function_selector.add_parser('add_bought', help = 'add a product to bought list')
-    add_bought_list.add_argument('-id', help = 'give the id number', type = int)
     add_bought_list.add_argument('-name', help = 'give the name of the product', type = str)
-    add_bought_list.add_argument('-buy_date', help = 'give the bought date of the product YYYY-MM-DD', type = lambda s: datetime.strptime(s, '%Y-%m-%d').date())
     add_bought_list.add_argument('-buy_price', help = 'give the bought price of the product', type = float)
     add_bought_list.add_argument('-expiration_date', help = 'give the expiration date in YYYY-MM-DD', type = lambda s: datetime.strptime(s, '%Y-%m-%d').date())
+   
     #option add to sold list
     add_sold_list = function_selector.add_parser('add_sold', help = 'add a product to sold list')
-    add_sold_list.add_argument('-id', help = 'give the id number', type = int)
     add_sold_list.add_argument('-bought_id', help = 'give the bought id of the product', type = int)
-    add_sold_list.add_argument('-sell_date', help = 'give the sell date of the product YYYY-MM-DD', type = lambda s: datetime.strptime(s, '%Y-%m-%d').date())
     add_sold_list.add_argument('-sell_price', help = 'give the bought price of the product', type = float)
-
 
     #options switch
     def switch(self):
@@ -66,15 +63,15 @@ class Command:
         if args.function == 'plot_sold_graph':
             call_function.make_date_sold_graph(args.start_date, args.end_date)
         if args.function == 'add_bought':
-            call_function.register_bought_product(args.id, args.name, args.buy_date, args.buy_price, args.expiration_date)
+            call_function.register_bought_product(args.name, args.buy_price, args.expiration_date)
             print("product added to bought list")
         if args.function == 'add_sold':
-            call_function.register_sold_product(args.id, args.bought_id, args.sell_date, args.sell_price)
+            call_function.register_sold_product(args.bought_id, args.sell_price)
             print("product added to sold list")
 
         try: 
             if args.file_name is not None:
-                make_custom_file(args.file_name, result, content = args.function)
+                call_function.make_custom_file(args.file_name, result, content = args.function)
         except AttributeError:
             pass
 

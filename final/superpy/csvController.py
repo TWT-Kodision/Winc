@@ -52,6 +52,14 @@ def get_data_list(filename):
     except FileNotFoundError:
         print("couldnt open the file")
 
+def get_highest_id(filename):
+    product_list = get_data_list(filename)
+    del product_list[0]
+    id_list = []
+    for id in product_list:
+        id_list.append(id[0])
+    return int(max(id_list))
+
 #gets the row number in a list using a search
 def get_row_index(data_list, search):
     for row in data_list:
@@ -59,16 +67,18 @@ def get_row_index(data_list, search):
             return data_list.index(row)
 
 #adds a (new) product to the bought list        
-def add_to_bought(id, product_name, buy_date, buy_price,expiration_date):
+def add_to_bought(product_name, buy_date, buy_price, expiration_date):
     filename = "bought.csv"
     action = "a"
+    id = get_highest_id(filename) + 1
     add_product = id, product_name, buy_date, buy_price, expiration_date
     process_file(filename, action, add_product)
 
 #adds a product that is sold to the sold list
-def add_to_sold(id, bought_id, sell_date, sell_price):
+def add_to_sold(bought_id, sell_price, sell_date):
     filename = "sold.csv"
     action = "a"
+    id = get_highest_id(filename) + 1
     sold_product = id, bought_id, sell_date, sell_price
     process_file(filename, action, sold_product)
 

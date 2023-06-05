@@ -23,13 +23,7 @@ class Products(peewee.Model):
     description = peewee.CharField()
     tags = peewee.ManyToManyField(Tags)
     in_stock = peewee.IntegerField()
-
-    class Meta:
-        database = db
-
-class Prices(peewee.Model):
-    product_id = peewee.ForeignKeyField(Products)
-    price_in_cents = peewee.IntegerField()
+    price = peewee.DecimalField(decimal_places=2, auto_round=True, default=0)
 
     class Meta:
         database = db

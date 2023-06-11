@@ -10,7 +10,7 @@ import pytest
 
 
 def test_main(capsys):
-    # Test on a short snippet first
+    # Test on a short snippet first test
     sys.stdin = io.StringIO("abcdef")
     sys.argv = ["main.py", "f"]
 

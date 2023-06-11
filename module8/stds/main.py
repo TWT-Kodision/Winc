@@ -10,15 +10,14 @@ def main():
     text= sys.stdin.read()
     # TODO: Filter character given as an argument from the text
     user_filter = sys.argv[1]
-    count = text.count(user_filter)
-    
     filtered_text = text.replace(user_filter, '')
+    count = text.count(user_filter)
+
     # TODO: Print the result to stdout
     sys.stdout.write(filtered_text)
     # TODO: Print the total number of removed characters to stderr
-    sys.stderr. write(str(count))
+    sys.stderr.write(str(count))
 
 
 if __name__ == "__main__":
     main()
-apt 
